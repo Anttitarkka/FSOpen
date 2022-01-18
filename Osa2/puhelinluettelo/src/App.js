@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
+import axios from 'axios'
 
 const Heading = ({text}) => {
   return (
@@ -21,12 +22,20 @@ const Input = ({description, value, onChange}) => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' , number: '040-123456'}
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [filter, setNewFilter] = useState('')
+  const [newFilter, setNewFilter] = useState('')
+
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }
+  
+  useEffect(hook, [])
 
   const addContact = (event) => {
     if (!persons.map(person => person.name).includes(newName)) {
@@ -56,12 +65,12 @@ const App = () => {
   }
 
   const personsToShow = persons.filter(person => person.name
-    .toLowerCase().includes(filter.toLowerCase()))
+    .toLowerCase().includes(newFilter.toLowerCase()))
 
   return (
     <div>
       <Heading text={"Phonebook"}/>
-      <Input description={"filter shown with: "} value={filter} onChange={handleFilter}/>
+      <Input description={"filter shown with: "} value={newFilter} onChange={handleFilter}/>
       <Heading text={"add a new"}/>
       <form onSubmit={addContact}>
         <Input description={"name: "} value={newName} onChange={handleNewName}/>
