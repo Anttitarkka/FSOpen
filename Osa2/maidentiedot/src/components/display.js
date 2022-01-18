@@ -51,17 +51,12 @@ const ListElement = ({name}) => {
         <br></br>
         <img src={flagPic} alt="Country flag not found" className="flag"/>
         {Object.keys(weather).length !== 0 && (
-                <>
-                    <h2>Weather in {capital}</h2>
-                    <p><b>temperature:</b> {weather.temperature} Celcius</p>
-                    <img
-                        src={weather.weather_icons[0]}
-                        alt={weather.weather_descriptions}
-                    />
-                    <p>
-                        <b>wind:</b> {weather.wind_speed} mph direction {weather.wind_dir}
-                    </p>
-                </>
+            <>
+                <h2>Weather in {capital}</h2>
+                <p><b>temperature:</b> {weather.temperature} Celcius</p>
+                <img src={weather.weather_icons[0]} alt={weather.weather_descriptions}/>
+                <p><b>wind:</b> {weather.wind_speed} mph direction {weather.wind_dir}</p>
+            </>
             )}
       </div>
     )
