@@ -63,8 +63,6 @@ const ListElement = ({name}) => {
   }
   
   const Display = ({countriesToShow, handleClick}) => {
-    console.log("apina avain")
-    console.log(api_key)
     if (countriesToShow.length > 10) {
       return (
         <p>Too many matches, specify another filter</p>
