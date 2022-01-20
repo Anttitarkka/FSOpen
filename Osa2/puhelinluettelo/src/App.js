@@ -1,5 +1,6 @@
 import React, { useState , useEffect} from 'react'
 import contactService from './services/contacts'
+import './style.css'
 
 const Heading = ({text}) => {
   return (
@@ -23,11 +24,26 @@ const Input = ({description, value, onChange}) => {
   )
 }
 
+const Notification = ({ message, type }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className={type}>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
+
 
   const hook = () => {
     contactService
@@ -53,6 +69,11 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+      setMessage(`Added ${personObj.name}`)
+      setMessageType('success')
+      setTimeout(() => {
+        setMessage(null)
+        }, 5000)
     } else {
         if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
           event.preventDefault()
@@ -63,7 +84,21 @@ const App = () => {
                 setPersons(persons.map(person => person.id !== personToUpdate.id ? person : retPerson))
                 setNewName('')
                 setNewNumber('')
+                setMessage(`Updated ${personObj.name}'s number`)
+                setMessageType('success')
+                setTimeout(() => {
+                  setMessage(null)
+                  }, 5000)
               })
+            .catch(error => {
+              setMessage(`Contact '${personObj.name}' was already removed from server`)
+              setMessageType('error')
+                setTimeout(() => {
+                  setMessage(null)
+                }, 5000)
+                setPersons(persons.filter(n => n.name !== personObj.name))
+              })
+        
         event.preventDefault()
       }
 
@@ -88,6 +123,11 @@ const App = () => {
       .del(remove.id)
         .then(() =>
           setPersons(persons.filter(person => person.id !== remove.id)))
+      setMessage(`Deleted ${remove.name}`)
+      setMessageType('success')
+      setTimeout(() => {
+      setMessage(null)
+      }, 5000)
     }
   }
 
@@ -97,6 +137,7 @@ const App = () => {
   return (
     <div>
       <Heading text={"Phonebook"}/>
+      <Notification message={message} type={messageType}/>
       <Input description={"filter shown with: "} value={newFilter} onChange={handleFilter}/>
       <Heading text={"add a new"}/>
       <form onSubmit={addContact}>

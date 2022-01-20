@@ -2,13 +2,8 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "142114214241242",
+      "number": "23443234234",
       "id": 5
-    },
-    {
-      "name": "Velli Housu",
-      "number": "45635539",
-      "id": 6
     },
     {
       "name": "Ali Baba",
@@ -16,8 +11,8 @@
       "id": 7
     },
     {
-      "name": "Ellun Kana",
-      "number": "84598342141234",
+      "name": "Ana T",
+      "number": "230920130132",
       "id": 8
     }
   ]
